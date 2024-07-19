@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siyaram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+
+        body {
+            background: rgb(41, 114, 41);
+        }
+
+        .container {
+            width: 300px;
+            margin: 50px auto;
+            box-shadow: 0px 0px 3px white;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            padding: 20px;
+            width: 80px;
+            height: 60px;
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+        }
+        h1, h3{
+            padding: 10px;
+        }
+
+        .h1 {
+            text-align: center;
+            line-height: 30px;
+            display: block;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #winer {
+            color: red;
+        text-align: center
+        }
+
+        .reset {
+            margin: auto;
+            text-align: center;
+
+            button {
+                padding: 10px 15px;
+                border: none;
+                background-color: black;
+                color: white;
+                cursor: pointer;
+            }
+        }
+        .subscribe{
+            text-align: center;
+            margin-top: 50PX;
+            .btnsub{
+                padding: 10px 20px;
+                background-color: red;
+                color: white;
+                border-radius: 6px;
+                border: brown;
+                animation: masic 2s linear infinite;
+            }
+        }
+        @keyframes masic {
+            0%{
+                box-shadow: 0px 0px 4px 4px white;
+            }
+            20%{
+                box-shadow: 0px 0px 4px 4px rgb(222, 158, 158);
+            }
+            30%{
+                box-shadow: 0px 0px 4px 4px rgb(222, 71, 71);
+            }
+            40%{
+                box-shadow: 0px 0px 4px 4px rgb(106, 71, 222);
+            }
+            50%{
+                box-shadow: 0px 0px 4px 4px rgb(53, 5, 210);
+            }
+            60%{
+                box-shadow: 0px 0px 4px 4px rgb(31, 211, 109);
+            }
+            70%{
+                box-shadow: 0px 0px 4px 4px rgb(222, 179, 22);
+            }
+            80%{
+                box-shadow: 0px 0px 4px 4px rgb(135, 13, 80);
+            }
+            90%{
+                box-shadow: 0px 0px 4px 4px rgb(223, 60, 6);
+            }
+            100%{
+                box-shadow: 0px 0px 4px 4px rgb(106, 71, 222);
+            }
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="h1">
+        <h1> Tic-Tac-Toe Game</h1>
+        <h3>This Game Make By <span style="color: red;">S</span>iyaram <span style="color: red;">S</span>harma</h3>
+        <h1 id="winer"></h1>
+    </div>
+    <div class="container">
+
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+
+    </div>
+
+    <div class="reset">
+        <button id="reset">Reset</button>
+    </div>
+
+
+    <div class="subscribe">
+        <a href="https://bit.ly/469vDha">  <button class="btnsub"><i class="fa-brands fa-youtube"></i> &nbsp;SUBACRIBE</button></a>
+    </div>
+    <script>
+       let boxes = document.querySelectorAll('.box');
+let win = document.querySelector('#winer');
+let reset = document.querySelector('#reset');
+let trueo = true;
+let demo = new Audio('mixkit-animated-small-group-applause-523.wav'); // Declare the audio variable globally
+
+let winner = [
+    [0, 1, 2],
+    [0, 3, 6],
+    [0, 4, 8],
+    [1, 4, 7],
+    [2, 5, 8],
+    [2, 4, 6],
+    [3, 4, 5],
+    [6, 7, 8],
+];
+
+// Reset button event listener
+reset.addEventListener('click', function() {
+    boxes.forEach((box) => {
+        box.innerText = "";
+        box.disabled = false;
+    });
+    win.innerText = ''; // Clear the win message
+    demo.pause(); // Pause the audio when reset is clicked
+    demo.currentTime = 0; // Rewind to the beginning of the audio
+});
+
+// Click event listener for each box
+boxes.forEach((box) => {
+    box.addEventListener('click', () => {
+        if (trueo) {
+            box.innerText = 'O';
+            trueo = false;
+        } else {
+            box.innerText = 'X';
+            trueo = true;
+        }
+
+        box.disabled = true;
+        checkWinner();
+    });
+});
+
+// Function to check for a winner
+const checkWinner = () => {
+    for (pattern of winner) {
+        let pos1 = boxes[pattern[0]].innerText;
+        let pos2 = boxes[pattern[1]].innerText;
+        let pos3 = boxes[pattern[2]].innerText;
+        if (pos1 !== '' && pos2 !== '' && pos3 !== '') {
+            if (pos1 === pos2 && pos2 === pos3) {
+                win.innerText = 'You Win';
+                demo.play();
+            }
+        }
+    }
+};
+
+
+      
+    </script>
+</body>
+
+</html>
